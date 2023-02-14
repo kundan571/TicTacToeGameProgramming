@@ -1,38 +1,247 @@
 package tictactoe;
-
 import java.util.Scanner;
-
 public class TicTacToe {
-    public static char letter, player, computer;
+    public static char letter,playerValue,computerValue;
+    public static char[] gameBoard = new char[10];
+    public static int chance,flag=0;
+    public static int boardFull = 1;
 
+    public static int toss(){
+        return (int)(Math.random() * 2);
+    }
     //Method to give player chance to choose character X or O before starting game
-    public static char chooseLetterXorO() {
+    public static char chooseLetterXorO(){
         System.out.println("Choose a letter between x or o before starting game");
         Scanner scanner = new Scanner(System.in);
         letter = scanner.next().charAt(0);
         return letter;
     }
 
-    public static void main(String[] args) {
-        char[] gameBoard = new char[10];
+    public static void showBoard(){
         for (int i = 1; i < 10; i++) {
-            gameBoard[i] = (char) (-+'0');
-        }
-        System.out.println("Welcome to TicTacToe game");
-        for (int i = 1; i < 10; i++) {
-            if (i == 4 || i == 7) {
+            if(i==4 || i==7){
                 System.out.println();
             }
-            System.out.print(gameBoard[i] + " ");
+            System.out.print(gameBoard[i]+" ");
         }
         System.out.println();
-        //player choose a letter between x or o to proceed
-        player = chooseLetterXorO();
-        if (player == 'x') {
-            computer = 'o';
-        } else {
-            computer = 'x';
+    }
+
+    public static void playerMove() {
+        System.out.println("Kindly play your move between 1-9 ");
+        int move;
+        boolean success = false;
+        Scanner scanner = new Scanner(System.in);
+        move = scanner.nextInt();
+        while (success == false){                           //Empty index check
+            if (gameBoard[move] == '-') {
+                gameBoard[move] = playerValue;
+                success = true;
+            } else {
+                System.out.println("its already taken, Please try another index");
+                move = scanner.nextInt();
+            }
+        }
+        showBoard();
+        winCheck();
+        boardFull++;
+        chance=1;           //Computer chance
+    }
+
+    public static void computerMove(){
+
+        int computerMove = (int)(Math.random() * 9 + 1);
+        boolean success = false;
+        while (success==false){
+            if(gameBoard[3] == '-' && Character.compare(gameBoard[1],computerValue)==0 && Character.compare(gameBoard[2],computerValue)==0|| gameBoard[3] == '-' && Character.compare(gameBoard[1],playerValue)==0 && Character.compare(gameBoard[2],playerValue)==0) {
+                gameBoard[3] = computerValue;
+                success = true;
+            }
+                /*
+                added condition below for win situation and blocking the opponent
+                 */
+            if(gameBoard[1] == '-' && Character.compare(gameBoard[2],computerValue)==0 && Character.compare(gameBoard[3],computerValue)==0 || gameBoard[1] == '-' && Character.compare(gameBoard[2],playerValue)==0 && Character.compare(gameBoard[3],playerValue)==0 )
+            {gameBoard[1]=computerValue;
+                success=true;
+            } else if(gameBoard[2] == '-' && Character.compare(gameBoard[1],computerValue)==0 && Character.compare(gameBoard[3],computerValue)==0|| gameBoard[2] == '-' && Character.compare(gameBoard[1],playerValue)==0 && Character.compare(gameBoard[3],playerValue)==0)
+            {gameBoard[2]=computerValue;
+                success=true;
+            } else if(gameBoard[6] == '-' && Character.compare(gameBoard[4],computerValue)==0 && Character.compare(gameBoard[5],computerValue)==0|| gameBoard[6] == '-' && Character.compare(gameBoard[4],playerValue)==0 && Character.compare(gameBoard[5],playerValue)==0)
+            {gameBoard[6]=computerValue;
+                success=true;
+            } else if(gameBoard[4] == '-' && Character.compare(gameBoard[5],computerValue)==0 && Character.compare(gameBoard[6],computerValue)==0 || gameBoard[4] == '-' && Character.compare(gameBoard[5],playerValue)==0 && Character.compare(gameBoard[6],playerValue)==0)
+            {gameBoard[4]=computerValue;
+                success=true;
+            } else if(gameBoard[5] == '-' && Character.compare(gameBoard[4],computerValue)==0 && Character.compare(gameBoard[6],computerValue)==0 || gameBoard[5] == '-' && Character.compare(gameBoard[4],playerValue)==0 && Character.compare(gameBoard[6],playerValue)==0)
+            {gameBoard[5]=computerValue;
+                success=true;
+            } else if(gameBoard[9] == '-' && Character.compare(gameBoard[7],computerValue)==0 && Character.compare(gameBoard[8],computerValue)==0 || gameBoard[9] == '-' && Character.compare(gameBoard[7],playerValue)==0 && Character.compare(gameBoard[8],playerValue)==0)
+            {gameBoard[9]=computerValue;
+                success=true;
+            } else if(gameBoard[7] == '-' && Character.compare(gameBoard[8],computerValue)==0 && Character.compare(gameBoard[9],computerValue)==0 || gameBoard[7] == '-' && Character.compare(gameBoard[8],playerValue)==0 && Character.compare(gameBoard[9],playerValue)==0)
+            {gameBoard[7]=computerValue;
+                success=true;
+            }else if(gameBoard[8] == '-' && Character.compare(gameBoard[7],computerValue)==0 && Character.compare(gameBoard[9],computerValue)==0 || gameBoard[8] == '-' && Character.compare(gameBoard[7],playerValue)==0 && Character.compare(gameBoard[9],playerValue)==0)
+            {gameBoard[8]=computerValue;
+                success=true;
+            }else if(gameBoard[7] == '-' && Character.compare(gameBoard[1],computerValue)==0 && Character.compare(gameBoard[4],computerValue)==0 || gameBoard[7] == '-' && Character.compare(gameBoard[1],playerValue)==0 && Character.compare(gameBoard[4],playerValue)==0)
+            {gameBoard[7]=computerValue;
+                success=true;
+            }else if(gameBoard[1] == '-' && Character.compare(gameBoard[4],computerValue)==0 && Character.compare(gameBoard[7],computerValue)==0|| gameBoard[1] == '-' &&  Character.compare(gameBoard[4],playerValue)==0 && Character.compare(gameBoard[7],playerValue)==0)
+            {gameBoard[1]=computerValue;
+                success=true;
+            }else if(gameBoard[4] == '-' && Character.compare(gameBoard[1],computerValue)==0 && Character.compare(gameBoard[7],computerValue)==0|| gameBoard[4] == '-' &&  Character.compare(gameBoard[1],playerValue)==0 && Character.compare(gameBoard[7],playerValue)==0)
+            {gameBoard[4]=computerValue;
+                success=true;
+            }else if(gameBoard[8] == '-' && Character.compare(gameBoard[2],computerValue)==0 && Character.compare(gameBoard[5],computerValue)==0|| gameBoard[8] == '-' &&  Character.compare(gameBoard[2],playerValue)==0 && Character.compare(gameBoard[5],playerValue)==0)
+            {gameBoard[8]=computerValue;
+                success=true;
+            }else if(gameBoard[2] == '-' && Character.compare(gameBoard[5],computerValue)==0 && Character.compare(gameBoard[8],computerValue)==0|| gameBoard[2] == '-' &&  Character.compare(gameBoard[5],playerValue)==0 && Character.compare(gameBoard[8],playerValue)==0)
+            {gameBoard[2]=computerValue;
+                success=true;
+            }else if(gameBoard[5] == '-' && Character.compare(gameBoard[2],computerValue)==0 && Character.compare(gameBoard[8],computerValue)==0|| gameBoard[5] == '-' &&  Character.compare(gameBoard[2],playerValue)==0 && Character.compare(gameBoard[8],playerValue)==0)
+            {gameBoard[5]=computerValue;
+                success=true;
+            }else if(gameBoard[9] == '-' && Character.compare(gameBoard[3],computerValue)==0 && Character.compare(gameBoard[6],computerValue)==0 || gameBoard[9] == '-' &&  Character.compare(gameBoard[3],playerValue)==0 && Character.compare(gameBoard[6],playerValue)==0)
+            {gameBoard[9]=computerValue;
+                success=true;
+            }else if(gameBoard[3] == '-' && Character.compare(gameBoard[6],computerValue)==0 && Character.compare(gameBoard[9],computerValue)==0 || gameBoard[3] == '-' &&  Character.compare(gameBoard[6],playerValue)==0 && Character.compare(gameBoard[9],playerValue)==0)
+            {gameBoard[3]=computerValue;
+                success=true;
+            }else if(gameBoard[6] == '-' && Character.compare(gameBoard[3],computerValue)==0 && Character.compare(gameBoard[9],computerValue)==0|| gameBoard[6] == '-' &&  Character.compare(gameBoard[3],playerValue)==0 && Character.compare(gameBoard[9],playerValue)==0)
+            {gameBoard[6]=computerValue;
+                success=true;
+            }else if(gameBoard[9] == '-' && Character.compare(gameBoard[1],computerValue)==0 && Character.compare(gameBoard[5],computerValue)==0|| gameBoard[9] == '-' &&  Character.compare(gameBoard[1],playerValue)==0 && Character.compare(gameBoard[5],playerValue)==0)
+            {gameBoard[9]=computerValue;
+                success=true;
+            }else if(gameBoard[1] == '-' && Character.compare(gameBoard[5],computerValue)==0 && Character.compare(gameBoard[9],computerValue)==0|| gameBoard[1] == '-' &&  Character.compare(gameBoard[5],playerValue)==0 && Character.compare(gameBoard[9],playerValue)==0)
+            {gameBoard[1]=computerValue;
+                success=true;
+            }else if(gameBoard[5] == '-' && Character.compare(gameBoard[1],computerValue)==0 && Character.compare(gameBoard[9],computerValue)==0|| gameBoard[5] == '-' &&  Character.compare(gameBoard[1],playerValue)==0 && Character.compare(gameBoard[9],playerValue)==0)
+            {gameBoard[5]=computerValue;
+                success=true;
+            }else if(gameBoard[7] == '-' && Character.compare(gameBoard[3],computerValue)==0 && Character.compare(gameBoard[5],computerValue)==0|| gameBoard[7] == '-' &&  Character.compare(gameBoard[3],playerValue)==0 && Character.compare(gameBoard[5],playerValue)==0)
+            {gameBoard[7]=computerValue;
+                success=true;
+            }else if(gameBoard[3] == '-' && Character.compare(gameBoard[5],computerValue)==0 && Character.compare(gameBoard[7],computerValue)==0|| gameBoard[3] == '-' &&  Character.compare(gameBoard[5],playerValue)==0 && Character.compare(gameBoard[7],playerValue)==0)
+            {gameBoard[3]=computerValue;
+                success=true;
+            }else if(gameBoard[5] == '-' && Character.compare(gameBoard[3],computerValue)==0 && Character.compare(gameBoard[7],computerValue)==0|| gameBoard[5] == '-' &&  Character.compare(gameBoard[3],playerValue)==0 && Character.compare(gameBoard[7],playerValue)==0)
+            {gameBoard[5]=computerValue;
+                success=true;
+            }
         }
 
+        showBoard();
+        winCheck();
+        boardFull++;
+        chance=2;       //Player Chance
+    }
+
+    public static void winCheck() {
+        if (Character.compare(gameBoard[1], playerValue) == 0 && Character.compare(gameBoard[2], playerValue) == 0 && Character.compare(gameBoard[3], playerValue) == 0) {
+            System.out.println("Player has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[3], playerValue) == 0 && Character.compare(gameBoard[5], playerValue) == 0 && Character.compare(gameBoard[7], playerValue) == 0) {
+            System.out.println("Player has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[4], playerValue) == 0 && Character.compare(gameBoard[5], playerValue) == 0 && Character.compare(gameBoard[6], playerValue) == 0) {
+            System.out.println("Player has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[7], playerValue) == 0 && Character.compare(gameBoard[8], playerValue) == 0 && Character.compare(gameBoard[9], playerValue) == 0) {
+            System.out.println("Player has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[1], playerValue) == 0 && Character.compare(gameBoard[4], playerValue) == 0 && Character.compare(gameBoard[7], playerValue) == 0) {
+            System.out.println("Player has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[2], playerValue) == 0 && Character.compare(gameBoard[5], playerValue) == 0 && Character.compare(gameBoard[8], playerValue) == 0) {
+            System.out.println("Player has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[3], playerValue) == 0 && Character.compare(gameBoard[6], playerValue) == 0 && Character.compare(gameBoard[9], playerValue) == 0) {
+            System.out.println("Player has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[1], playerValue) == 0 && Character.compare(gameBoard[5], playerValue) == 0 && Character.compare(gameBoard[9], playerValue) == 0) {
+            System.out.println("Player has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[1], computerValue) == 0 && Character.compare(gameBoard[2], computerValue) == 0 && Character.compare(gameBoard[3], computerValue) == 0) {
+            System.out.println("Computer has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[3], computerValue) == 0 && Character.compare(gameBoard[5], computerValue) == 0 && Character.compare(gameBoard[7], computerValue) == 0) {
+            System.out.println("Computer has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[4], computerValue) == 0 && Character.compare(gameBoard[5], computerValue) == 0 && Character.compare(gameBoard[6], computerValue) == 0) {
+            System.out.println("Computer has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[7], computerValue) == 0 && Character.compare(gameBoard[8], computerValue) == 0 && Character.compare(gameBoard[9], computerValue) == 0) {
+            System.out.println("Computer has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[1], computerValue) == 0 && Character.compare(gameBoard[4], computerValue) == 0 && Character.compare(gameBoard[7], computerValue) == 0) {
+            System.out.println("Computer has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[2], computerValue) == 0 && Character.compare(gameBoard[5], computerValue) == 0 && Character.compare(gameBoard[8], computerValue) == 0) {
+            System.out.println("Computer has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[3], computerValue) == 0 && Character.compare(gameBoard[6], computerValue) == 0 && Character.compare(gameBoard[9], computerValue) == 0) {
+            System.out.println("Computer has won!!!!");
+            flag=1;
+            return;
+        } else if (Character.compare(gameBoard[1], computerValue) == 0 && Character.compare(gameBoard[5], computerValue) == 0 && Character.compare(gameBoard[9], computerValue) == 0) {
+            System.out.println("Computer has won!!!!");
+            flag=1;
+            return;
+        }else {
+            System.out.println("Game is a tie!!");
+            return;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println("Welcome to TicTacToe game");
+        //player choose a letter between x or o to proceed
+
+        for (int i = 1; i < 10; i++) {
+            gameBoard[i] = '-';
+        }
+        playerValue=chooseLetterXorO();
+        if (playerValue=='x'){
+            computerValue = 'o';
+        }else {
+            computerValue = 'x';
+        }
+        showBoard();
+
+        // If 1 then user win and plays first
+        if (toss() == 1) {
+            System.out.println("Player turn");
+            playerMove();
+        } else {
+            System.out.println("Computer turn");
+            computerMove();
+        }
+
+        while (boardFull<10 && flag==0){
+            if(chance==1){
+                System.out.println("Computer turn");
+                computerMove();
+                return;
+            }else{
+                playerMove();
+            }
+        }
     }
 }
